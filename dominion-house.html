@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dominion House — London Branch</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --brand-blue: #1A72D8;
+            --brand-blue-dark: #1259B0;
+            --brand-blue-light: #4A9FEA;
+            --brand-blue-pale: rgba(26, 114, 216, 0.15);
+            --dark-bg: #07111F;
+            --mid-bg: #0D1C30;
+            --card-bg: rgba(26, 114, 216, 0.07);
+            --border: rgba(26, 114, 216, 0.35);
+            --white: #ffffff;
+            --text-muted: rgba(255,255,255,0.55);
+        }
+
+        /* Map old variables so all existing rules still work */
+        :root {
+            --royal-blue: var(--brand-blue-dark);
+            --dark-blue: var(--dark-bg);
+            --mid-blue: var(--mid-bg);
+            --gold: var(--brand-blue);
+            --light-gold: var(--brand-blue-light);
+            --pale-gold: var(--brand-blue-pale);
+        }
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background: var(--dark-bg);
+            color: var(--white);
+            min-height: 100vh;
+        }
+
+        /* ─── SCROLLBAR ─── */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: var(--dark-bg); }
+        ::-webkit-scrollbar-thumb { background: var(--brand-blue); border-radius: 3px; }
+
+        /* ─── HEADER ─── */
+        header {
+            background: linear-gradient(135deg, var(--dark-bg) 0%, #0E1E38 100%);
+            border-bottom: 2px solid var(--brand-blue);
+            padding: 14px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 24px rgba(0,0,0,0.6);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .hamburger {
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            padding: 5px;
+            flex-shrink: 0;
+        }
+        .hamburger span {
+            display: block;
+            width: 26px;
+            height: 3px;
+            background: var(--brand-blue-light);
+            border-radius: 3px;
+            transition: all 0.3s ease;
+        }
+        .hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(5px, 8px); }
+        .hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+        .hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px, -8px); }
+
+        .church-title h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 1.55rem;
+            color: var(--white);
+            letter-spacing: 2px;
+            line-height: 1.2;
+        }
+        .church-title .subtitle {
+            font-size: 0.7rem;
+            color: var(--brand-blue-light);
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            margin-top: 2px;
+        }
+
+        .logo-wrap {
+            width: 54px;
+            height: 54px;
+            border-radius: 50%;
+            border: 2px solid var(--brand-blue);
+            overflow: hidden;
+            background: var(--mid-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            flex-shrink: 0;
+            transition: box-shadow 0.3s;
+        }
+        .logo-wrap:hover { box-shadow: 0 0 16px rgba(26, 114, 216, 0.6); }
+        .logo-wrap img { width: 100%; height: 100%; object-fit: cover; display: none; }
+        .logo-initials {
+            font-family: 'Cinzel', serif;
+            font-size: 1.1rem;
+            color: var(--brand-blue-light);
+            font-weight: 700;
+            pointer-events: none;
+        }
+
+        /* ─── OVERLAY ─── */
+        .overlay {
+            position: fixed; inset: 0;
+            background: rgba(0,0,0,0.55);
+            z-index: 200;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+        .overlay.show { opacity: 1; pointer-events: all; }
+
+        /* ─── SIDE NAV ─── */
+        .side-nav {
+            position: fixed;
+            top: 0; left: -300px;
+            width: 280px; height: 100%;
+            background: linear-gradient(180deg, var(--dark-bg), #04090F);
+            border-right: 2px solid var(--brand-blue);
+            z-index: 300;
+            transition: left 0.32s cubic-bezier(.4,0,.2,1);
+            display: flex;
+            flex-direction: column;
+            padding-top: 90px;
+        }
+        .side-nav.show { left: 0; }
+
+        .side-nav nav a {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 15px 28px;
+            color: rgba(255,255,255,0.85);
+            text-decoration: none;
+            font-size: 0.95rem;
+            letter-spacing: 0.5px;
+            border-left: 3px solid transparent;
+            transition: all 0.25s;
+        }
+        .side-nav nav a .nav-icon { font-size: 1.15rem; }
+        .side-nav nav a:hover,
+        .side-nav nav a.active {
+            color: var(--brand-blue-light);
+            border-left-color: var(--brand-blue);
+            background: var(--brand-blue-pale);
+        }
+
+        .nav-divider {
+            height: 1px;
+            background: rgba(26, 114, 216, 0.2);
+            margin: 10px 28px;
+        }
+
+        .nav-update-btn {
+            margin: 16px 24px;
+            padding: 11px;
+            background: var(--brand-blue);
+            color: var(--white);
+            border: none;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 0.88rem;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .nav-update-btn:hover { background: var(--brand-blue-light); }
+
+        .nav-footer {
+            margin-top: auto;
+            padding: 20px 28px;
+            font-size: 0.72rem;
+            color: rgba(255,255,255,0.3);
+            border-top: 1px solid rgba(26, 114, 216, 0.15);
+        }
+        .nav-footer a { color: var(--brand-blue-light); text-decoration: none; }
+
+        /* ─── MAIN ─── */
+        .main { max-width: 860px; margin: 0 auto; padding: 30px 20px 60px; }
+
+        .section { display: none; animation: fadeIn 0.4s ease; }
+        .section.active { display: block; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ─── HOME ─── */
+        .date-pill {
+            text-align: center;
+            margin-bottom: 22px;
+        }
+        .date-pill span {
+            background: var(--brand-blue-pale);
+            border: 1px solid var(--brand-blue);
+            color: var(--brand-blue-light);
+            padding: 7px 24px;
+            border-radius: 30px;
+            font-size: 0.82rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .poster-frame {
+            max-width: 520px;
+            margin: 0 auto;
+            border: 3px solid var(--brand-blue);
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 12px 50px rgba(26, 114, 216, 0.25);
+        }
+        .poster-frame img { width: 100%; display: block; }
+        .poster-empty {
+            aspect-ratio: 3/4;
+            background: linear-gradient(160deg, var(--mid-blue), var(--dark-blue));
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 14px;
+            color: rgba(255,255,255,0.35);
+            padding: 40px;
+            text-align: center;
+        }
+        .poster-empty .big-icon { font-size: 3.5rem; }
+        .poster-empty p { font-size: 0.88rem; line-height: 1.6; }
+        .poster-empty strong { color: var(--brand-blue-light); }
+
+        /* ─── SECTION HEADER ─── */
+        .section-head {
+            text-align: center;
+            margin-bottom: 28px;
+        }
+        .section-head h2 {
+            font-family: 'Cinzel', serif;
+            font-size: 1.75rem;
+            color: var(--white);
+            margin-bottom: 10px;
+        }
+        .section-head .line {
+            width: 56px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--brand-blue), transparent);
+            margin: 0 auto;
+        }
+
+        /* ─── ANNOUNCEMENTS ─── */
+        .ann-list { display: flex; flex-direction: column; gap: 14px; }
+        .ann-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-left: 4px solid var(--brand-blue);
+            border-radius: 10px;
+            padding: 18px 22px;
+            line-height: 1.75;
+            font-size: 0.95rem;
+        }
+        .ann-card::before {
+            content: '✦';
+            color: var(--brand-blue-light);
+            margin-right: 10px;
+            font-size: 0.7rem;
+        }
+
+        /* ─── SONGS ─── */
+        .songs-list { display: flex; flex-direction: column; gap: 24px; }
+        .song-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        .song-card-title {
+            padding: 14px 20px;
+            font-family: 'Cinzel', serif;
+            color: var(--brand-blue-light);
+            font-size: 0.95rem;
+            letter-spacing: 1px;
+            background: rgba(0,0,0,0.25);
+            border-bottom: 1px solid rgba(26, 114, 216, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .song-card-embed { padding: 14px; }
+        .song-card-embed iframe { width: 100%; border-radius: 8px; border: none; }
+        .song-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--brand-blue-light);
+            text-decoration: none;
+            padding: 8px 0;
+            font-size: 0.9rem;
+        }
+        .song-link:hover { text-decoration: underline; }
+
+        /* ─── SPOTIFY ─── */
+        .spotify-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 24px;
+        }
+        .spotify-card h3 {
+            font-family: 'Cinzel', serif;
+            color: var(--brand-blue-light);
+            margin-bottom: 18px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1rem;
+        }
+        .spotify-card iframe { width: 100%; border-radius: 12px; border: none; }
+
+        /* ─── EMPTY STATE ─── */
+        .empty {
+            text-align: center;
+            color: rgba(255,255,255,0.35);
+            padding: 50px 20px;
+            font-style: italic;
+            font-size: 0.9rem;
+        }
+
+        /* ─── FOOTER ─── */
+        footer {
+            text-align: center;
+            padding: 28px 20px;
+            border-top: 1px solid rgba(26, 114, 216, 0.2);
+            font-size: 0.78rem;
+            color: rgba(255,255,255,0.4);
+            margin-top: 20px;
+        }
+        footer .cross { color: var(--brand-blue-light); font-size: 1rem; }
+        footer a { color: var(--brand-blue-light); text-decoration: none; }
+        footer a:hover { text-decoration: underline; }
+
+        /* ─── MODAL OVERLAY ─── */
+        .modal-overlay {
+            position: fixed; inset: 0;
+            background: rgba(0,0,0,0.82);
+            z-index: 900;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+        }
+        .modal-overlay.show { display: flex; }
+
+        /* ─── MODAL BOX ─── */
+        .modal {
+            background: linear-gradient(160deg, var(--mid-bg), var(--dark-bg));
+            border: 2px solid var(--brand-blue);
+            border-radius: 18px;
+            padding: 32px 28px;
+            width: 100%;
+            max-width: 620px;
+            max-height: 88vh;
+            overflow-y: auto;
+            box-shadow: 0 24px 80px rgba(0,0,0,0.9);
+        }
+
+        .modal-header {
+            margin-bottom: 6px;
+        }
+        .modal-header h2 {
+            font-family: 'Cinzel', serif;
+            color: var(--white);
+            font-size: 1.35rem;
+        }
+        .modal-sub {
+            color: rgba(255,255,255,0.5);
+            font-size: 0.82rem;
+            margin-bottom: 26px;
+            line-height: 1.5;
+        }
+
+        .form-group { margin-bottom: 22px; }
+        .form-label {
+            display: block;
+            color: var(--brand-blue-light);
+            font-size: 0.78rem;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+        .form-input,
+        .form-textarea {
+            width: 100%;
+            padding: 10px 14px;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(26, 114, 216, 0.35);
+            border-radius: 9px;
+            color: var(--white);
+            font-family: 'Open Sans', sans-serif;
+            font-size: 0.9rem;
+            outline: none;
+            transition: border-color 0.25s;
+        }
+        .form-input:focus,
+        .form-textarea:focus { border-color: var(--brand-blue); }
+        .form-textarea { resize: vertical; min-height: 110px; }
+        ::placeholder { color: rgba(255,255,255,0.3); }
+
+        /* Upload area */
+        .upload-area {
+            border: 2px dashed rgba(26, 114, 216, 0.35);
+            border-radius: 10px;
+            padding: 18px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.25s;
+        }
+        .upload-area:hover { border-color: var(--brand-blue); background: var(--brand-blue-pale); }
+        .upload-area input[type="file"] { display: none; }
+        .upload-icon { font-size: 1.8rem; margin-bottom: 6px; }
+        .upload-hint { color: rgba(255,255,255,0.45); font-size: 0.8rem; }
+        .upload-name { color: var(--brand-blue-light); font-size: 0.85rem; margin-top: 6px; min-height: 18px; }
+
+        /* Songs rows */
+        .songs-rows { display: flex; flex-direction: column; gap: 10px; }
+        .song-row {
+            display: grid;
+            grid-template-columns: 1fr 2fr auto;
+            gap: 8px;
+            align-items: center;
+        }
+        .song-row input { padding: 9px 12px; }
+        .remove-row {
+            background: rgba(255,60,60,0.15);
+            border: 1px solid rgba(255,80,80,0.4);
+            color: #ff7070;
+            border-radius: 7px;
+            width: 34px;
+            height: 34px;
+            font-size: 1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: background 0.2s;
+        }
+        .remove-row:hover { background: rgba(255,60,60,0.3); }
+        .add-row-btn {
+            background: var(--brand-blue-pale);
+            border: 1px dashed rgba(26, 114, 216, 0.5);
+            color: var(--brand-blue-light);
+            border-radius: 8px;
+            padding: 9px;
+            font-size: 0.82rem;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 4px;
+            transition: background 0.2s;
+        }
+        .add-row-btn:hover { background: rgba(26, 114, 216, 0.25); }
+
+        /* Modal actions */
+        .modal-actions { display: flex; gap: 10px; margin-top: 28px; }
+        .btn-save {
+            flex: 1;
+            padding: 13px;
+            background: var(--brand-blue);
+            color: var(--white);
+            border: none;
+            border-radius: 9px;
+            font-weight: 700;
+            font-size: 0.92rem;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .btn-save:hover { background: var(--brand-blue-light); }
+        .btn-skip {
+            padding: 13px 20px;
+            background: transparent;
+            color: rgba(255,255,255,0.5);
+            border: 1px solid rgba(255,255,255,0.18);
+            border-radius: 9px;
+            cursor: pointer;
+            font-size: 0.88rem;
+            transition: all 0.2s;
+        }
+        .btn-skip:hover { border-color: rgba(255,255,255,0.45); color: var(--white); }
+
+        /* ─── RESPONSIVE ─── */
+        @media (max-width: 560px) {
+            .church-title h1 { font-size: 1.15rem; }
+            .song-row { grid-template-columns: 1fr auto; }
+            .song-row .url-input { grid-column: 1 / -2; }
+            .modal { padding: 22px 18px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- NAV OVERLAY -->
+<div class="overlay" id="overlay" onclick="closeNav()"></div>
+
+<!-- SIDE NAV -->
+<aside class="side-nav" id="sideNav">
+    <nav>
+        <a href="#" class="active" data-sec="home" onclick="switchSection('home');return false;">
+            <span class="nav-icon">🏛️</span> Home
+        </a>
+        <a href="#" data-sec="announcements" onclick="switchSection('announcements');return false;">
+            <span class="nav-icon">📢</span> Announcements
+        </a>
+        <a href="#" data-sec="songs" onclick="switchSection('songs');return false;">
+            <span class="nav-icon">🎵</span> Songs of the Day
+        </a>
+        <a href="#" data-sec="spotify" onclick="switchSection('spotify');return false;">
+            <span class="nav-icon">🎧</span> Background Music
+        </a>
+    </nav>
+    <div class="nav-divider"></div>
+    <button class="nav-update-btn" onclick="openModal(); closeNav();">✏️ Update This Week</button>
+    <div class="nav-footer">
+        ✝️ Dominion House — London Branch<br>
+        Created by <a href="https://www.linkedin.com/in/demiadewole/" target="_blank">Demi Adewole</a>
+    </div>
+</aside>
+
+<!-- HEADER -->
+<header>
+    <div class="header-left">
+        <div class="hamburger" id="hamburger" onclick="toggleNav()">
+            <span></span><span></span><span></span>
+        </div>
+        <div class="church-title">
+            <h1>Dominion House</h1>
+            <div class="subtitle">London Branch</div>
+        </div>
+    </div>
+    <div class="logo-wrap" title="Click to update logo" onclick="document.getElementById('logoFileDirect').click()">
+        <img id="logoImg" alt="Church Logo">
+        <span class="logo-initials" id="logoInitials">DH</span>
+        <input type="file" id="logoFileDirect" accept="image/*" style="display:none" onchange="handleLogoUpload(event, true)">
+    </div>
+</header>
+
+<!-- MAIN -->
+<main class="main">
+
+    <!-- HOME -->
+    <div class="section active" id="sec-home">
+        <div class="date-pill"><span id="displayDate">Sunday Service</span></div>
+        <div class="poster-frame">
+            <img id="posterImg" alt="Sunday Poster" style="display:none;">
+            <div class="poster-empty" id="posterEmpty">
+                <div class="big-icon">✝️</div>
+                <p>No poster uploaded yet.<br>Open the menu and tap <strong>Update This Week</strong> to add this Sunday's poster.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ANNOUNCEMENTS -->
+    <div class="section" id="sec-announcements">
+        <div class="section-head">
+            <h2>📢 Announcements</h2>
+            <div class="line"></div>
+        </div>
+        <div class="ann-list" id="annList">
+            <div class="empty">No announcements yet — update via the menu.</div>
+        </div>
+    </div>
+
+    <!-- SONGS -->
+    <div class="section" id="sec-songs">
+        <div class="section-head">
+            <h2>🎵 Songs of the Day</h2>
+            <div class="line"></div>
+        </div>
+        <div class="songs-list" id="songsList">
+            <div class="empty">No songs added yet — update via the menu.</div>
+        </div>
+    </div>
+
+    <!-- SPOTIFY -->
+    <div class="section" id="sec-spotify">
+        <div class="section-head">
+            <h2>🎧 Background Music</h2>
+            <div class="line"></div>
+        </div>
+        <div class="spotify-card">
+            <h3>♪ Now Playing</h3>
+            <div id="spotifyEmbed">
+                <div class="empty">No Spotify track added yet — update via the menu.</div>
+            </div>
+        </div>
+    </div>
+
+</main>
+
+<!-- FOOTER -->
+<footer>
+    <div class="cross">✝</div>
+    <p style="margin-top:8px;">Dominion House — London Branch</p>
+    <p style="margin-top:6px;">
+        Created with ❤️ by <a href="https://www.linkedin.com/in/demiadewole/" target="_blank">Demi Adewole</a>
+    </p>
+</footer>
+
+<!-- ── UPDATE MODAL ── -->
+<div class="modal-overlay" id="modalOverlay">
+    <div class="modal">
+        <div class="modal-header">
+            <h2>✏️ Update This Week</h2>
+        </div>
+        <p class="modal-sub">Fill in what's new for Sunday — or hit <em>Skip</em> to keep last week's content.</p>
+
+        <!-- DATE -->
+        <div class="form-group">
+            <label class="form-label">📅 Service Date</label>
+            <input class="form-input" id="inputDate" type="text" placeholder="e.g. Sunday, 13th April 2025">
+        </div>
+
+        <!-- POSTER -->
+        <div class="form-group">
+            <label class="form-label">🖼️ Sunday Poster</label>
+            <div class="upload-area" onclick="document.getElementById('posterFile').click()">
+                <div class="upload-icon">📁</div>
+                <div class="upload-hint">Click to upload this week's poster image</div>
+                <div class="upload-name" id="posterFileName"></div>
+                <input type="file" id="posterFile" accept="image/*" onchange="handlePosterUpload(event)">
+            </div>
+        </div>
+
+        <!-- LOGO -->
+        <div class="form-group">
+            <label class="form-label">🔵 Church Logo <span style="color:rgba(255,255,255,0.4);font-size:0.75rem;">(top-right corner)</span></label>
+            <div class="upload-area" onclick="document.getElementById('logoFile').click()">
+                <div class="upload-icon">🖼️</div>
+                <div class="upload-hint">Upload your church logo (one-time setup)</div>
+                <div class="upload-name" id="logoFileName"></div>
+                <input type="file" id="logoFile" accept="image/*" onchange="handleLogoUpload(event, false)">
+            </div>
+        </div>
+
+        <!-- ANNOUNCEMENTS -->
+        <div class="form-group">
+            <label class="form-label">📢 Announcements</label>
+            <textarea class="form-textarea" id="inputAnn"
+                placeholder="One announcement per line, e.g.&#10;Prayer meeting Wednesday at 7pm&#10;Youth group at 10am Sunday&#10;Bible study Thursday at 6pm"></textarea>
+        </div>
+
+        <!-- SONGS -->
+        <div class="form-group">
+            <label class="form-label">🎵 Songs of the Day</label>
+            <div class="songs-rows" id="songsRows"></div>
+            <button class="add-row-btn" onclick="addSongRow()">＋ Add another song</button>
+        </div>
+
+        <!-- SPOTIFY -->
+        <div class="form-group">
+            <label class="form-label">🎧 Spotify Background Song</label>
+            <input class="form-input" id="inputSpotify" type="text"
+                placeholder="Paste Spotify track or playlist URL…">
+        </div>
+
+        <div class="modal-actions">
+            <button class="btn-save" onclick="saveAndClose()">💾 Save &amp; Update</button>
+            <button class="btn-skip" onclick="closeModal()">Skip</button>
+        </div>
+    </div>
+</div>
+
+<script>
+// ─── STATE ───────────────────────────────────────
+let data = {
+    date: '',
+    poster: '',
+    logo: '',
+    announcements: '',
+    songs: [],
+    spotify: ''
+};
+
+const STORAGE_KEY = 'dhLondon_v1';
+
+// ─── BOOT ────────────────────────────────────────
+window.addEventListener('DOMContentLoaded', () => {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) {
+        try { data = JSON.parse(saved); } catch(e) {}
+        renderAll();
+    } else {
+        // First-ever visit — show modal straight away
+        openModal();
+    }
+});
+
+function persist() {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+}
+
+// ─── NAV ─────────────────────────────────────────
+function toggleNav() {
+    const nav = document.getElementById('sideNav');
+    const ol  = document.getElementById('overlay');
+    const hb  = document.getElementById('hamburger');
+    const open = nav.classList.toggle('show');
+    ol.classList.toggle('show', open);
+    hb.classList.toggle('open', open);
+}
+
+function closeNav() {
+    document.getElementById('sideNav').classList.remove('show');
+    document.getElementById('overlay').classList.remove('show');
+    document.getElementById('hamburger').classList.remove('open');
+}
+
+function switchSection(name) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.side-nav nav a').forEach(a => a.classList.remove('active'));
+    document.getElementById('sec-' + name).classList.add('active');
+    document.querySelector(`[data-sec="${name}"]`).classList.add('active');
+    closeNav();
+}
+
+// ─── MODAL ───────────────────────────────────────
+function openModal() {
+    // Pre-fill
+    document.getElementById('inputDate').value = data.date || '';
+    document.getElementById('inputAnn').value  = data.announcements || '';
+    document.getElementById('inputSpotify').value = data.spotify || '';
+    document.getElementById('posterFileName').textContent = data.poster ? '✅ Poster already loaded' : '';
+    document.getElementById('logoFileName').textContent   = data.logo   ? '✅ Logo already loaded'   : '';
+
+    // Songs
+    const rows = document.getElementById('songsRows');
+    rows.innerHTML = '';
+    const list = data.songs.length ? data.songs : [{ title: '', url: '' }];
+    list.forEach(s => addSongRow(s.title, s.url));
+
+    document.getElementById('modalOverlay').classList.add('show');
+}
+
+function closeModal() {
+    document.getElementById('modalOverlay').classList.remove('show');
+}
+
+function saveAndClose() {
+    data.date          = document.getElementById('inputDate').value.trim();
+    data.announcements = document.getElementById('inputAnn').value.trim();
+    data.spotify       = document.getElementById('inputSpotify').value.trim();
+
+    data.songs = [];
+    document.querySelectorAll('#songsRows .song-row').forEach(row => {
+        const t = row.querySelector('.song-title-i').value.trim();
+        const u = row.querySelector('.song-url-i').value.trim();
+        if (t || u) data.songs.push({ title: t, url: u });
+    });
+
+    persist();
+    renderAll();
+    closeModal();
+}
+
+// ─── FILE UPLOADS ─────────────────────────────────
+function handlePosterUpload(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    const r = new FileReader();
+    r.onload = ev => {
+        data.poster = ev.target.result;
+        document.getElementById('posterFileName').textContent = '✅ ' + file.name;
+    };
+    r.readAsDataURL(file);
+}
+
+function handleLogoUpload(e, direct) {
+    const file = e.target.files[0];
+    if (!file) return;
+    const r = new FileReader();
+    r.onload = ev => {
+        data.logo = ev.target.result;
+        if (!direct) {
+            document.getElementById('logoFileName').textContent = '✅ ' + file.name;
+        } else {
+            persist();
+            renderLogo();
+        }
+    };
+    r.readAsDataURL(file);
+}
+
+// ─── SONG ROWS ────────────────────────────────────
+function addSongRow(title = '', url = '') {
+    const wrap = document.getElementById('songsRows');
+    const row  = document.createElement('div');
+    row.className = 'song-row';
+    row.innerHTML = `
+        <input class="form-input song-title-i" placeholder="Song title" value="${esc(title)}">
+        <input class="form-input song-url-i url-input" placeholder="YouTube URL" value="${esc(url)}">
+        <button class="remove-row" onclick="removeRow(this)" title="Remove">✕</button>
+    `;
+    wrap.appendChild(row);
+}
+
+function removeRow(btn) {
+    const wrap = document.getElementById('songsRows');
+    if (wrap.children.length > 1) btn.parentElement.remove();
+}
+
+// ─── RENDER ───────────────────────────────────────
+function renderAll() {
+    renderDate();
+    renderPoster();
+    renderLogo();
+    renderAnnouncements();
+    renderSongs();
+    renderSpotify();
+}
+
+function renderDate() {
+    document.getElementById('displayDate').textContent = data.date || 'Sunday Service';
+}
+
+function renderPoster() {
+    const img = document.getElementById('posterImg');
+    const ph  = document.getElementById('posterEmpty');
+    if (data.poster) {
+        img.src = data.poster;
+        img.style.display = 'block';
+        ph.style.display  = 'none';
+    } else {
+        img.style.display = 'none';
+        ph.style.display  = 'flex';
+    }
+}
+
+function renderLogo() {
+    const img  = document.getElementById('logoImg');
+    const init = document.getElementById('logoInitials');
+    if (data.logo) {
+        img.src = data.logo;
+        img.style.display  = 'block';
+        init.style.display = 'none';
+    } else {
+        img.style.display  = 'none';
+        init.style.display = 'flex';
+    }
+}
+
+function renderAnnouncements() {
+    const el = document.getElementById('annList');
+    if (!data.announcements) {
+        el.innerHTML = '<div class="empty">No announcements yet — update via the menu.</div>';
+        return;
+    }
+    const lines = data.announcements.split('\n').map(l => l.trim()).filter(Boolean);
+    el.innerHTML = lines.map(l => `<div class="ann-card">${esc(l)}</div>`).join('');
+}
+
+function renderSongs() {
+    const el = document.getElementById('songsList');
+    if (!data.songs || !data.songs.length) {
+        el.innerHTML = '<div class="empty">No songs added yet — update via the menu.</div>';
+        return;
+    }
+    el.innerHTML = data.songs.map(s => {
+        const vid = ytId(s.url);
+        return `
+        <div class="song-card">
+            <div class="song-card-title">🎵 ${esc(s.title || 'Untitled Song')}</div>
+            <div class="song-card-embed">
+                ${ vid
+                    ? `<iframe height="215" src="https://www.youtube.com/embed/${vid}?rel=0" allowfullscreen></iframe>`
+                    : s.url
+                        ? `<a class="song-link" href="${esc(s.url)}" target="_blank">▶ Open on YouTube</a>`
+                        : '<p style="color:rgba(255,255,255,0.3);padding:6px 0;">No link provided</p>'
+                }
+            </div>
+        </div>`;
+    }).join('');
+}
+
+function renderSpotify() {
+    const el = document.getElementById('spotifyEmbed');
+    if (!data.spotify) {
+        el.innerHTML = '<div class="empty">No Spotify track added yet — update via the menu.</div>';
+        return;
+    }
+    const embed = spotifyEmbed(data.spotify);
+    el.innerHTML = embed
+        ? `<iframe src="${embed}" height="152" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>`
+        : `<a href="${esc(data.spotify)}" target="_blank" class="song-link">▶ Open on Spotify</a>`;
+}
+
+// ─── HELPERS ──────────────────────────────────────
+function ytId(url) {
+    if (!url) return null;
+    const m = url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([^&?#\s]{11})/);
+    return m ? m[1] : null;
+}
+
+function spotifyEmbed(url) {
+    if (!url) return null;
+    const m = url.match(/spotify\.com\/(track|playlist|album|episode)\/([A-Za-z0-9]+)/);
+    return m ? `https://open.spotify.com/embed/${m[1]}/${m[2]}?utm_source=generator` : null;
+}
+
+function esc(str) {
+    return (str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+</script>
+</body>
+</html>
