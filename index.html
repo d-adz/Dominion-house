@@ -508,12 +508,190 @@
         }
         .btn-skip:hover { border-color: rgba(255,255,255,0.45); color: var(--white); }
 
+        /* ─── BIBLE ─── */
+        .bible-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 18px;
+        }
+        .bible-tab {
+            flex: 1;
+            padding: 10px;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid var(--border);
+            border-radius: 9px;
+            color: rgba(255,255,255,0.55);
+            font-size: 0.88rem;
+            cursor: pointer;
+            font-family: 'Open Sans', sans-serif;
+            transition: all 0.2s;
+        }
+        .bible-tab.active {
+            background: var(--brand-blue-pale);
+            border-color: var(--brand-blue);
+            color: var(--brand-blue-light);
+            font-weight: 600;
+        }
+        .bible-tab:hover:not(.active) {
+            border-color: rgba(26,114,216,0.4);
+            color: rgba(255,255,255,0.8);
+        }
+
+        .bible-dropdown-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+            gap: 10px;
+        }
+        .bible-dd-group { display: flex; flex-direction: column; gap: 6px; }
+        .bible-dd-label {
+            font-size: 0.72rem;
+            color: var(--brand-blue-light);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        .bible-select {
+            padding: 9px 10px;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(26,114,216,0.35);
+            border-radius: 9px;
+            color: var(--white);
+            font-size: 0.85rem;
+            outline: none;
+            cursor: pointer;
+            width: 100%;
+            transition: border-color 0.2s;
+        }
+        .bible-select:focus { border-color: var(--brand-blue); }
+        .bible-select:disabled { opacity: 0.4; cursor: not-allowed; }
+        .bible-select option { background: #0d1c30; color: var(--white); }
+
+        .bible-search-box {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 22px;
+            margin-bottom: 28px;
+        }
+        .bible-search-row {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        .bible-search-row .form-input { flex: 1; }
+        .bible-trans-select {
+            padding: 10px 12px;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(26,114,216,0.35);
+            border-radius: 9px;
+            color: var(--white);
+            font-size: 0.88rem;
+            outline: none;
+            cursor: pointer;
+            min-width: 70px;
+        }
+        .bible-trans-select option { background: #0d1c30; color: var(--white); }
+        .bible-search-btn {
+            padding: 10px 22px;
+            background: var(--brand-blue);
+            color: var(--white);
+            border: none;
+            border-radius: 9px;
+            font-weight: 700;
+            font-size: 0.88rem;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: background 0.2s;
+        }
+        .bible-search-btn:hover { background: var(--brand-blue-light); }
+        .bible-hint {
+            margin-top: 10px;
+            font-size: 0.78rem;
+            color: rgba(255,255,255,0.4);
+        }
+        .bible-hint em { color: var(--brand-blue-light); font-style: normal; }
+
+        /* Verse result cards */
+        .verse-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-left: 4px solid var(--brand-blue);
+            border-radius: 12px;
+            padding: 22px 24px;
+            margin-bottom: 16px;
+            animation: fadeIn 0.35s ease;
+        }
+        .verse-ref {
+            font-family: 'Cinzel', serif;
+            color: var(--brand-blue-light);
+            font-size: 0.82rem;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .verse-copy-btn {
+            background: none;
+            border: 1px solid rgba(26,114,216,0.35);
+            color: rgba(255,255,255,0.5);
+            border-radius: 6px;
+            padding: 3px 10px;
+            font-size: 0.7rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .verse-copy-btn:hover { border-color: var(--brand-blue); color: var(--brand-blue-light); }
+        .verse-text {
+            font-size: 1rem;
+            line-height: 1.85;
+            color: rgba(255,255,255,0.9);
+            font-style: italic;
+        }
+        .verse-text strong {
+            color: var(--white);
+            font-style: normal;
+            font-size: 0.75rem;
+            vertical-align: super;
+            margin-right: 3px;
+            color: var(--brand-blue-light);
+        }
+
+        /* Loading / error states */
+        .bible-loading {
+            text-align: center;
+            padding: 40px;
+            color: var(--brand-blue-light);
+            font-size: 0.9rem;
+            animation: pulse 1.2s infinite;
+        }
+        @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+        .bible-error {
+            background: rgba(255,60,60,0.08);
+            border: 1px solid rgba(255,80,80,0.3);
+            border-radius: 10px;
+            padding: 18px 22px;
+            color: #ff8080;
+            font-size: 0.88rem;
+            line-height: 1.6;
+        }
+        .bible-results-count {
+            font-size: 0.78rem;
+            color: rgba(255,255,255,0.4);
+            margin-bottom: 16px;
+            letter-spacing: 0.5px;
+        }
+
         /* ─── RESPONSIVE ─── */
         @media (max-width: 560px) {
             .church-title h1 { font-size: 1.15rem; }
             .song-row { grid-template-columns: 1fr auto; }
             .song-row .url-input { grid-column: 1 / -2; }
             .modal { padding: 22px 18px; }
+            .bible-dropdown-grid { grid-template-columns: 1fr 1fr; }
+        }
+        @media (max-width: 400px) {
+            .bible-dropdown-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -536,6 +714,9 @@
         </a>
         <a href="#" data-sec="spotify" onclick="switchSection('spotify');return false;">
             <span class="nav-icon">🎧</span> Background Music
+        </a>
+        <a href="#" data-sec="bible" onclick="switchSection('bible');return false;">
+            <span class="nav-icon">📖</span> Bible Search
         </a>
     </nav>
     <div class="nav-divider"></div>
@@ -613,6 +794,90 @@
                 <div class="empty">No Spotify track added yet — update via the menu.</div>
             </div>
         </div>
+    </div>
+
+    <!-- BIBLE -->
+    <div class="section" id="sec-bible">
+        <div class="section-head">
+            <h2>📖 Bible</h2>
+            <div class="line"></div>
+        </div>
+
+        <!-- TAB SWITCHER -->
+        <div class="bible-tabs">
+            <button class="bible-tab active" id="tab-browse" onclick="switchBibleTab('browse')">📚 Browse</button>
+            <button class="bible-tab" id="tab-search" onclick="switchBibleTab('search')">🔍 Search</button>
+        </div>
+
+        <!-- BROWSE PANE -->
+        <div class="bible-pane" id="pane-browse">
+            <div class="bible-search-box">
+                <div class="bible-dropdown-grid">
+                    <!-- Book -->
+                    <div class="bible-dd-group">
+                        <label class="bible-dd-label">Book</label>
+                        <select class="bible-select" id="ddBook" onchange="onBookChange()">
+                            <option value="">— Select Book —</option>
+                        </select>
+                    </div>
+                    <!-- Chapter -->
+                    <div class="bible-dd-group">
+                        <label class="bible-dd-label">Chapter</label>
+                        <select class="bible-select" id="ddChapter" onchange="onChapterChange()" disabled>
+                            <option value="">— Chapter —</option>
+                        </select>
+                    </div>
+                    <!-- From Verse -->
+                    <div class="bible-dd-group">
+                        <label class="bible-dd-label">From Verse</label>
+                        <select class="bible-select" id="ddVerseFrom" disabled>
+                            <option value="">—</option>
+                        </select>
+                    </div>
+                    <!-- To Verse -->
+                    <div class="bible-dd-group">
+                        <label class="bible-dd-label">To Verse</label>
+                        <select class="bible-select" id="ddVerseTo" disabled>
+                            <option value="">— (optional) —</option>
+                        </select>
+                    </div>
+                    <!-- Translation -->
+                    <div class="bible-dd-group">
+                        <label class="bible-dd-label">Translation</label>
+                        <select class="bible-select" id="ddTrans">
+                            <option value="kjv">KJV</option>
+                            <option value="web">WEB</option>
+                            <option value="bbe">BBE</option>
+                            <option value="asv">ASV</option>
+                            <option value="dra">DRA</option>
+                        </select>
+                    </div>
+                </div>
+                <button class="bible-search-btn" style="width:100%;margin-top:14px;" onclick="browseVerses()">📖 Get Verses</button>
+            </div>
+        </div>
+
+        <!-- SEARCH PANE -->
+        <div class="bible-pane" id="pane-search" style="display:none;">
+            <div class="bible-search-box">
+                <div class="bible-search-row">
+                    <input class="form-input" id="bibleQuery" type="text"
+                        placeholder="e.g.  John 3:16  or  faith  or  Psalm 23"
+                        onkeydown="if(event.key==='Enter') bibleSearch()">
+                    <select class="bible-trans-select" id="bibleTrans">
+                        <option value="kjv">KJV</option>
+                        <option value="web">WEB</option>
+                        <option value="bbe">BBE</option>
+                        <option value="asv">ASV</option>
+                        <option value="dra">DRA</option>
+                    </select>
+                    <button class="bible-search-btn" onclick="bibleSearch()">Search</button>
+                </div>
+                <p class="bible-hint">Type a verse reference (e.g. <em>Romans 8:28</em>) or a keyword (e.g. <em>love</em>)</p>
+            </div>
+        </div>
+
+        <div id="bibleResults"></div>
     </div>
 
 </main>
@@ -928,6 +1193,255 @@ function spotifyEmbed(url) {
 
 function esc(str) {
     return (str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ─── BIBLE BOOK DATA ──────────────────────────────
+const BIBLE_BOOKS = [
+  {n:'Genesis',a:'genesis',c:50},{n:'Exodus',a:'exodus',c:40},{n:'Leviticus',a:'leviticus',c:27},
+  {n:'Numbers',a:'numbers',c:36},{n:'Deuteronomy',a:'deuteronomy',c:34},{n:'Joshua',a:'joshua',c:24},
+  {n:'Judges',a:'judges',c:21},{n:'Ruth',a:'ruth',c:4},{n:'1 Samuel',a:'1+samuel',c:31},
+  {n:'2 Samuel',a:'2+samuel',c:24},{n:'1 Kings',a:'1+kings',c:22},{n:'2 Kings',a:'2+kings',c:25},
+  {n:'1 Chronicles',a:'1+chronicles',c:29},{n:'2 Chronicles',a:'2+chronicles',c:36},{n:'Ezra',a:'ezra',c:10},
+  {n:'Nehemiah',a:'nehemiah',c:13},{n:'Esther',a:'esther',c:10},{n:'Job',a:'job',c:42},
+  {n:'Psalms',a:'psalms',c:150},{n:'Proverbs',a:'proverbs',c:31},{n:'Ecclesiastes',a:'ecclesiastes',c:12},
+  {n:'Song of Solomon',a:'song+of+solomon',c:8},{n:'Isaiah',a:'isaiah',c:66},{n:'Jeremiah',a:'jeremiah',c:52},
+  {n:'Lamentations',a:'lamentations',c:5},{n:'Ezekiel',a:'ezekiel',c:48},{n:'Daniel',a:'daniel',c:12},
+  {n:'Hosea',a:'hosea',c:14},{n:'Joel',a:'joel',c:3},{n:'Amos',a:'amos',c:9},
+  {n:'Obadiah',a:'obadiah',c:1},{n:'Jonah',a:'jonah',c:4},{n:'Micah',a:'micah',c:7},
+  {n:'Nahum',a:'nahum',c:3},{n:'Habakkuk',a:'habakkuk',c:3},{n:'Zephaniah',a:'zephaniah',c:3},
+  {n:'Haggai',a:'haggai',c:2},{n:'Zechariah',a:'zechariah',c:14},{n:'Malachi',a:'malachi',c:4},
+  {n:'Matthew',a:'matthew',c:28},{n:'Mark',a:'mark',c:16},{n:'Luke',a:'luke',c:24},
+  {n:'John',a:'john',c:21},{n:'Acts',a:'acts',c:28},{n:'Romans',a:'romans',c:16},
+  {n:'1 Corinthians',a:'1+corinthians',c:16},{n:'2 Corinthians',a:'2+corinthians',c:13},
+  {n:'Galatians',a:'galatians',c:6},{n:'Ephesians',a:'ephesians',c:6},{n:'Philippians',a:'philippians',c:4},
+  {n:'Colossians',a:'colossians',c:4},{n:'1 Thessalonians',a:'1+thessalonians',c:5},
+  {n:'2 Thessalonians',a:'2+thessalonians',c:3},{n:'1 Timothy',a:'1+timothy',c:6},
+  {n:'2 Timothy',a:'2+timothy',c:4},{n:'Titus',a:'titus',c:3},{n:'Philemon',a:'philemon',c:1},
+  {n:'Hebrews',a:'hebrews',c:13},{n:'James',a:'james',c:5},{n:'1 Peter',a:'1+peter',c:5},
+  {n:'2 Peter',a:'2+peter',c:3},{n:'1 John',a:'1+john',c:5},{n:'2 John',a:'2+john',c:1},
+  {n:'3 John',a:'3+john',c:1},{n:'Jude',a:'jude',c:1},{n:'Revelation',a:'revelation',c:22}
+];
+
+// Verse counts per chapter [book index][chapter index]
+// Using a compact lookup; fetched dynamically via API when needed
+let verseCountCache = {}; // key: "bookAbbr-chapter" => max verse count
+
+// Populate book dropdown on load
+(function initBibleDropdowns() {
+    const sel = document.getElementById('ddBook');
+    BIBLE_BOOKS.forEach((b, i) => {
+        const opt = document.createElement('option');
+        opt.value = i;
+        opt.textContent = b.n;
+        sel.appendChild(opt);
+    });
+})();
+
+function switchBibleTab(tab) {
+    document.getElementById('pane-browse').style.display = tab === 'browse' ? '' : 'none';
+    document.getElementById('pane-search').style.display = tab === 'search' ? '' : 'none';
+    document.getElementById('tab-browse').classList.toggle('active', tab === 'browse');
+    document.getElementById('tab-search').classList.toggle('active', tab === 'search');
+    document.getElementById('bibleResults').innerHTML = '';
+}
+
+function onBookChange() {
+    const bi = document.getElementById('ddBook').value;
+    const chSel = document.getElementById('ddChapter');
+    const vfSel = document.getElementById('ddVerseFrom');
+    const vtSel = document.getElementById('ddVerseTo');
+
+    // Reset downstream
+    chSel.innerHTML = '<option value="">— Chapter —</option>';
+    vfSel.innerHTML = '<option value="">—</option>';
+    vtSel.innerHTML = '<option value="">— (optional) —</option>';
+    vfSel.disabled = true;
+    vtSel.disabled = true;
+
+    if (bi === '') { chSel.disabled = true; return; }
+
+    const book = BIBLE_BOOKS[parseInt(bi)];
+    for (let i = 1; i <= book.c; i++) {
+        const opt = document.createElement('option');
+        opt.value = i;
+        opt.textContent = 'Chapter ' + i;
+        chSel.appendChild(opt);
+    }
+    chSel.disabled = false;
+}
+
+async function onChapterChange() {
+    const bi  = document.getElementById('ddBook').value;
+    const ch  = document.getElementById('ddChapter').value;
+    const vfSel = document.getElementById('ddVerseFrom');
+    const vtSel = document.getElementById('ddVerseTo');
+
+    vfSel.innerHTML = '<option value="">—</option>';
+    vtSel.innerHTML = '<option value="">— (optional) —</option>';
+    vfSel.disabled = true;
+    vtSel.disabled = true;
+
+    if (!bi || !ch) return;
+
+    const book = BIBLE_BOOKS[parseInt(bi)];
+    const cacheKey = book.a + '-' + ch;
+
+    let maxVerse = verseCountCache[cacheKey];
+    if (!maxVerse) {
+        // Fetch the whole chapter to find max verse
+        try {
+            const res  = await fetch(`https://bible-api.com/${book.a}+${ch}?translation=kjv`);
+            const data = await res.json();
+            if (data.verses && data.verses.length) {
+                maxVerse = data.verses[data.verses.length - 1].verse;
+                verseCountCache[cacheKey] = maxVerse;
+            }
+        } catch(e) { maxVerse = 50; } // fallback
+    }
+
+    for (let i = 1; i <= maxVerse; i++) {
+        const o1 = document.createElement('option'); o1.value = i; o1.textContent = 'Verse ' + i;
+        const o2 = document.createElement('option'); o2.value = i; o2.textContent = 'Verse ' + i;
+        vfSel.appendChild(o1);
+        vtSel.appendChild(o2);
+    }
+    vfSel.disabled = false;
+    vtSel.disabled = false;
+}
+
+async function browseVerses() {
+    const bi    = document.getElementById('ddBook').value;
+    const ch    = document.getElementById('ddChapter').value;
+    const vFrom = document.getElementById('ddVerseFrom').value;
+    const vTo   = document.getElementById('ddVerseTo').value;
+    const trans = document.getElementById('ddTrans').value;
+    const out   = document.getElementById('bibleResults');
+
+    if (!bi || !ch) {
+        out.innerHTML = '<div class="bible-error">Please select a Book and Chapter first.</div>';
+        return;
+    }
+
+    const book = BIBLE_BOOKS[parseInt(bi)];
+    let ref;
+    if (vFrom && vTo && parseInt(vTo) >= parseInt(vFrom)) {
+        ref = `${book.a}+${ch}:${vFrom}-${vTo}`;
+    } else if (vFrom) {
+        ref = `${book.a}+${ch}:${vFrom}`;
+    } else {
+        ref = `${book.a}+${ch}`; // whole chapter
+    }
+
+    out.innerHTML = '<div class="bible-loading">📖 Loading…</div>';
+    try {
+        await fetchVerseRef(decodeURIComponent(ref.replace(/\+/g,' ')), trans, out);
+    } catch(e) {
+        out.innerHTML = `<div class="bible-error">⚠️ Could not load verses. Check your connection.<br><small>${e.message}</small></div>`;
+    }
+}
+
+// ─── BIBLE SEARCH ─────────────────────────────────
+// Detects whether input looks like a verse reference or a keyword search
+function isVerseRef(q) {
+    // Matches patterns like "John 3:16", "1 Cor 13:4-7", "Psalm 23", "Gen 1:1"
+    return /\d+\s*[:\.]\s*\d+|\b(genesis|exodus|leviticus|numbers|deuteronomy|joshua|judges|ruth|samuel|kings|chronicles|ezra|nehemiah|esther|job|psalm|psalms|proverbs|ecclesiastes|song|isaiah|jeremiah|lamentations|ezekiel|daniel|hosea|joel|amos|obadiah|jonah|micah|nahum|habakkuk|zephaniah|haggai|zechariah|malachi|matthew|mark|luke|john|acts|romans|corinthians|galatians|ephesians|philippians|colossians|thessalonians|timothy|titus|philemon|hebrews|james|peter|jude|revelation|gen|ex|lev|num|deut|josh|judg|psa|pro|ecc|isa|jer|ezek|dan|hos|mal|matt|rom|cor|gal|eph|phil|col|thess|tim|heb|rev)\b/i.test(q);
+}
+
+async function bibleSearch() {
+    const q     = document.getElementById('bibleQuery').value.trim();
+    const trans = document.getElementById('bibleTrans').value;
+    const out   = document.getElementById('bibleResults');
+
+    if (!q) return;
+
+    out.innerHTML = '<div class="bible-loading">🔍 Searching the scriptures…</div>';
+
+    try {
+        if (isVerseRef(q)) {
+            await fetchVerseRef(q, trans, out);
+        } else {
+            await fetchKeyword(q, trans, out);
+        }
+    } catch(e) {
+        out.innerHTML = `<div class="bible-error">⚠️ Could not reach the Bible API. Please check your internet connection and try again.<br><small>${e.message}</small></div>`;
+    }
+}
+
+// Direct verse reference lookup via bible-api.com
+async function fetchVerseRef(ref, trans, out) {
+    const encoded = encodeURIComponent(ref);
+    const res  = await fetch(`https://bible-api.com/${encoded}?translation=${trans}`);
+    const data = await res.json();
+
+    if (data.error) {
+        out.innerHTML = `<div class="bible-error">⚠️ "${esc(ref)}" not found. Try a different reference, e.g. <em>John 3:16</em> or <em>Psalm 23:1</em>.</div>`;
+        return;
+    }
+
+    const verses = data.verses || [];
+    const count  = verses.length;
+    out.innerHTML = `<p class="bible-results-count">${count} verse${count!==1?'s':''} · ${(data.translation_name||trans).toUpperCase()}</p>`;
+
+    if (verses.length === 1) {
+        out.innerHTML += verseCard(
+            `${verses[0].book_name} ${verses[0].chapter}:${verses[0].verse}`,
+            verses[0].text.trim(),
+            trans
+        );
+    } else {
+        // Multi-verse: combine into one card with verse numbers inline
+        const combined = verses.map(v =>
+            `<strong>${v.verse}</strong> ${v.text.trim()}`
+        ).join(' ');
+        const ref2 = `${verses[0].book_name} ${verses[0].chapter}:${verses[0].verse}–${verses[verses.length-1].verse}`;
+        out.innerHTML += verseCard(ref2, combined, trans, true);
+    }
+}
+
+// Keyword search via bolls.life API
+async function fetchKeyword(keyword, trans, out) {
+    const transMap = { kjv:'KJV', web:'WEB', bbe:'BBE', asv:'ASV', dra:'DRA' };
+    const t = transMap[trans] || 'KJV';
+    const encoded = encodeURIComponent(keyword);
+    const res  = await fetch(`https://bolls.life/search/${t}/${encoded}/`);
+    const data = await res.json();
+
+    if (!data || !data.length) {
+        out.innerHTML = `<div class="bible-error">No results found for "<strong>${esc(keyword)}</strong>". Try a different word or phrase.</div>`;
+        return;
+    }
+
+    const shown = data.slice(0, 15);
+    out.innerHTML = `<p class="bible-results-count">${data.length} result${data.length!==1?'s':''} found · showing ${shown.length} · ${t}</p>`;
+    shown.forEach(v => {
+        out.innerHTML += verseCard(
+            `${v.bookname} ${v.chapter}:${v.verse}`,
+            v.text.replace(/<[^>]+>/g, ''),
+            trans
+        );
+    });
+}
+
+function verseCard(ref, text, trans, isHtml = false) {
+    const id = 'vc_' + Math.random().toString(36).slice(2,8);
+    const plain = isHtml ? text.replace(/<[^>]+>/g,'') : text;
+    return `
+    <div class="verse-card">
+        <div class="verse-ref">
+            <span>📖 ${esc(ref)} · ${trans.toUpperCase()}</span>
+            <button class="verse-copy-btn" onclick="copyVerse('${id}','${esc(ref)}')">Copy</button>
+        </div>
+        <div class="verse-text" id="${id}">${isHtml ? text : esc(text)}</div>
+    </div>`;
+}
+
+function copyVerse(id, ref) {
+    const el   = document.getElementById(id);
+    const text = `"${el.innerText.trim()}" — ${ref}`;
+    navigator.clipboard.writeText(text).then(() => {
+        const btn = el.previousElementSibling?.querySelector('.verse-copy-btn');
+        if (btn) { btn.textContent = 'Copied!'; setTimeout(()=>btn.textContent='Copy', 2000); }
+    });
 }
 </script>
 </body>
